@@ -31,7 +31,7 @@ class Snapshots {
     if (doc) {
       const key = await this._backend.keys.generateSymmetrical()
       const encrypt = pify(key.key.encrypt.bind(key.key))
-      const html = await htmlForDoc(await encrypt(doc))
+      const html = this._htmlForDoc(await encrypt(doc))
       return await this._backend.ipfs.files.add(html).then((results) => (
         {
           key: b58Encode(key.raw),
@@ -39,11 +39,11 @@ class Snapshots {
         }))
     }
   }
+
+  _htmlForDoc (encryptedDoc) {
+    return Buffer.from('<!doctype html>\n' +
+      renderToString(React.createElement(this._DocViewer, { encryptedDoc })))
+  }
 }
 
 export default Snapshots
-
-async function htmlForDoc (encryptedDoc) {
-  return Buffer.from('<!doctype html>' +
-    renderToString(React.createElement(this._DocViewer, { encryptedDoc })))
-}
