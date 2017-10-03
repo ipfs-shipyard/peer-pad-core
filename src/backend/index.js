@@ -1,3 +1,5 @@
+'use strict'
+
 import EventEmitter from 'events'
 import { decode as b58Decode } from 'bs58'
 import Y from 'yjs'

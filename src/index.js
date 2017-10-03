@@ -1,3 +1,5 @@
+'use strict'
+
 import EventEmitter from 'events'
 
 import generateRandomKeys from './backend/keys/generate'
@@ -64,5 +66,9 @@ function validateOptions (options) {
 
   if (!options.readKey) {
     throw new Error('peerpad needs a read key')
+  }
+
+  if (!options.docViewer) {
+    throw new Error('peerpad needs a doc viewer react component class')
   }
 }

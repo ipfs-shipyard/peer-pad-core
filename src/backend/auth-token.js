@@ -1,3 +1,5 @@
+'use strict'
+
 import waterfall from 'async/waterfall'
 
 export default async function authTokenFromIpfsId (ipfs, keys) {

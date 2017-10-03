@@ -1,3 +1,5 @@
+'use strict'
+
 import Y from 'yjs'
 
 import YMemory from 'y-memory'

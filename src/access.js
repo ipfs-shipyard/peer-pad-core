@@ -1,3 +1,5 @@
+'use strict'
+
 import EventEmitter from 'events'
 
 const PERMISSIONS = ['read', 'write', 'admin']

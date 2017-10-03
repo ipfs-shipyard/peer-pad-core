@@ -1,3 +1,5 @@
+'use strict'
+
 const EventEmitter = require('events')
 
 class Peers extends EventEmitter {

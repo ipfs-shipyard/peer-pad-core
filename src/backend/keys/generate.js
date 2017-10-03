@@ -1,3 +1,5 @@
+'use strict'
+
 import { keys } from 'libp2p-crypto'
 import encode from './encode'
 

@@ -1,3 +1,5 @@
+'use strict'
+
 import EventEmitter from 'events'
 
 export default function Auth (keys, roomEmitter) {

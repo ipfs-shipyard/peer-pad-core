@@ -1,3 +1,5 @@
+'use strict'
+
 import IPFS from 'ipfs'
 
 function maybeCreateIPFS (_ipfs) {

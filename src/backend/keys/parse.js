@@ -1,3 +1,5 @@
+'use strict'
+
 import crypto from 'libp2p-crypto'
 import parallel from 'async/parallel'
 

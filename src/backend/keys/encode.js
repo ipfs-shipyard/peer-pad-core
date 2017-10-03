@@ -1,3 +1,5 @@
+'use strict'
+
 import { encode } from 'bs58'
 
 export default function encodeKey (key) {

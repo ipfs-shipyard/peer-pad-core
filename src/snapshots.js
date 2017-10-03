@@ -1,3 +1,5 @@
+'use strict'
+
 import { Buffer } from 'safe-buffer'
 import DeltaToHTML from 'quill-delta-to-html'
 import pify from 'pify'
@@ -8,8 +10,8 @@ import { renderToString } from 'react-dom/server'
 class Snapshots {
   constructor (options, backend) {
     this._options = options
-    this._DocViewerDoc = this._options.DocViewer
-    if (!this._DocViewerDoc) {
+    this._DocViewer = this._options.docViewer
+    if (!this._DocViewer) {
       throw new Error('Need a DocViewer option containing a React DocViewer class')
     }
     this._backend = backend
@@ -43,5 +45,5 @@ export default Snapshots
 
 async function htmlForDoc (encryptedDoc) {
   return Buffer.from('<!doctype html>' +
-    renderToString(React.createElement(this._DocViewerDoc, { encryptedDoc })))
+    renderToString(React.createElement(this._DocViewer, { encryptedDoc })))
 }
