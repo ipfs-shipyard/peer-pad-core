@@ -24,6 +24,7 @@
     "y-richtext": "^9.0.8",
     "yjs": "^12.3.3"
   },
+  "main": "src/index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
