@@ -11,7 +11,7 @@ function generateSymmetricalKey(_options) {
   const options = Object.assign({}, defaultOptions, _options)
   const rawKey = crypto.randomBytes(options.keyLength + options.ivLength)
   return new Promise((resolve, reject) => {
-    crypto.aes.create(rawKey.slice(0, 32), rawKey.slice(32), (err, key) => {
+    crypto.aes.create(rawKey.slice(0, options.keyLength), rawKey.slice(options.keyLength), (err, key) => {
       if (err) {
         return reject(err)
       }

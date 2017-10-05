@@ -11,9 +11,7 @@ class Snapshots {
   constructor (options, backend) {
     this._options = options
     this._DocViewer = this._options.docViewer
-    if (!this._DocViewer) {
-      throw new Error('Need a DocViewer option containing a React DocViewer class')
-    }
+    this._DocViewerScript = this._options.docViewerScript
     this._backend = backend
   }
 
@@ -23,7 +21,6 @@ class Snapshots {
       const delta = this._backend.crdt.share.richtext.toDelta()
       const converter = new DeltaToHTML(delta, {})
       doc = Buffer.from(converter.convert())
-      console.log(doc)
     } else {
       // TODO: other types
     }
@@ -41,8 +38,12 @@ class Snapshots {
   }
 
   _htmlForDoc (encryptedDoc) {
-    return Buffer.from('<!doctype html>\n' +
-      renderToString(React.createElement(this._DocViewer, { encryptedDoc })))
+    const doc = '<!doctype html>\n' +
+      renderToString(React.createElement(this._DocViewer, {
+        encryptedDoc,
+        script: this._DocViewerScript
+      }))
+    return Buffer.from(doc)
   }
 }
 

@@ -3,6 +3,7 @@
 import EventEmitter from 'events'
 
 import generateRandomKeys from './backend/keys/generate'
+import parseSymmetricalKey from './backend/keys/parse-symm-key'
 
 import Backend from './backend'
 import Auth from './auth'
@@ -17,7 +18,7 @@ import Snapshots from './snapshots'
 const TYPES = ['text', 'richtext']
 
 export default createPeerpad
-export { generateRandomKeys }
+export { generateRandomKeys, parseSymmetricalKey }
 
 class Peerpad extends EventEmitter {
   constructor (options) {
