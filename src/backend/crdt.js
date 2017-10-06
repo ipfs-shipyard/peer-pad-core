@@ -42,6 +42,7 @@ export default async function startCRDT (id, authToken, keys, ipfs, roomEmitter,
     connector: connectorOptions,
     share: {
       name: 'Text',
+      text: 'Text',
       richtext: 'Richtext',
       access: 'Map'
     }

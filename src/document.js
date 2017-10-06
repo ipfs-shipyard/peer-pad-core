@@ -17,7 +17,7 @@ class Document extends EventEmitter {
     if (this._options.type === 'richtext') {
       this._backend.crdt.share.richtext.bindQuill(editor)
     } else {
-      // TODO
+      this._backend.crdt.share.text.bindCodeMirror(editor)
     }
   }
 
@@ -25,7 +25,7 @@ class Document extends EventEmitter {
     if (this._options.type === 'richtext') {
       this._backend.crdt.share.richtext.unbindQuill(editor)
     } else {
-      // TODO
+      this._backend.crdt.share.text.unbindCodeMirror(editor)
     }
   }
 }

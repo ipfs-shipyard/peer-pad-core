@@ -15,7 +15,7 @@ import History from './history'
 import Attachments from './attachments'
 import Snapshots from './snapshots'
 
-const TYPES = ['text', 'richtext']
+const TYPES = ['markdown', 'richtext']
 
 export default createPeerpad
 export { generateRandomKeys, parseSymmetricalKey }
