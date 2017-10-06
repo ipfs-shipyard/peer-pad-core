@@ -4,8 +4,8 @@ import { keys } from 'libp2p-crypto'
 import encode from './encode'
 
 const defaultOptions = {
-  algo: 'RSA',
-  bits: 1024
+  algo: 'Ed25519',
+  bits: 512
 }
 
 async function generateKeys (options) {
