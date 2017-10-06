@@ -38,7 +38,7 @@ class Snapshots {
 
     const key = await this._backend.keys.generateSymmetrical()
     const encrypt = pify(key.key.encrypt.bind(key.key))
-    const html = this._htmlForDoc(await encrypt(doc))
+    const html = this._htmlForDoc(await encrypt(doc), this._options.docScript)
 
     const files = [
       {
@@ -72,10 +72,11 @@ class Snapshots {
     })
   }
 
-  _htmlForDoc (encryptedDoc) {
+  _htmlForDoc (encryptedDoc, docScript) {
     const doc = '<!doctype html>\n' +
       renderToString(React.createElement(this._DocViewer, {
-        encryptedDoc
+        encryptedDoc,
+        docScript
       }))
     return Buffer.from(doc)
   }

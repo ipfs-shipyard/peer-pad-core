@@ -77,4 +77,8 @@ function validateOptions (options) {
   if (!options.docViewer) {
     throw new Error('peerpad needs a doc viewer react component class')
   }
+
+  if (!options.docScript) {
+    throw new Error('peerpad needs a doc script')
+  }
 }
