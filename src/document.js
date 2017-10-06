@@ -9,6 +9,10 @@ class Document extends EventEmitter {
     this._backend = backend
   }
 
+  bindName (input) {
+    this._backend.crdt.share.name.bindTextarea(input)
+  }
+
   bindEditor (editor) {
     if (this._options.type === 'richtext') {
       this._backend.crdt.share.richtext.bindQuill(editor)

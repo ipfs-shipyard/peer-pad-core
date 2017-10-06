@@ -23,6 +23,7 @@
     "y-map": "^10.1.3",
     "y-memory": "^8.0.9",
     "y-richtext": "^9.0.8",
+    "y-text": "^9.5.1",
     "yjs": "^12.3.3"
   },
   "main": "src/index.js",

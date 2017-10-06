@@ -6,12 +6,13 @@ import pify from 'pify'
 import { encode as b58Encode } from 'bs58'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import { Buffer } from 'safe-buffer'
+import { version } from '../package.json'
 
 class Snapshots {
   constructor (options, backend) {
     this._options = options
     this._DocViewer = this._options.docViewer
-    this._DocViewerScript = this._options.docViewerScript
     this._backend = backend
   }
 
@@ -29,19 +30,44 @@ class Snapshots {
       const key = await this._backend.keys.generateSymmetrical()
       const encrypt = pify(key.key.encrypt.bind(key.key))
       const html = this._htmlForDoc(await encrypt(doc))
-      return await this._backend.ipfs.files.add(html).then((results) => (
+
+      const files = [
         {
-          key: b58Encode(key.raw),
-          hash: results[results.length - 1].hash
-        }))
+          path: './meta.json',
+          content: Buffer.from(JSON.stringify({
+            type: this._options.type,
+            name: this._backend.crdt.share.name.toString(),
+            version
+          }, null, '\t'))
+        },
+        {
+          path: './index.html',
+          content: html
+        }
+      ]
+
+      const stream = await pify(this._backend.ipfs.files.createAddStream.bind(this._backend.ipfs.files))()
+      let lastNode
+      files.forEach((file) => stream.write(file))
+      return await new Promise((resolve, reject) => {
+        stream.on('error', (err) => reject(err))
+        stream.on('data', (node) => {
+          if (node.path === '.') {
+            resolve({
+              key: b58Encode(key.raw),
+              hash: node.hash
+            })
+          }
+        })
+        stream.end()
+      })
     }
   }
 
   _htmlForDoc (encryptedDoc) {
     const doc = '<!doctype html>\n' +
       renderToString(React.createElement(this._DocViewer, {
-        encryptedDoc,
-        script: this._DocViewerScript
+        encryptedDoc
       }))
     return Buffer.from(doc)
   }

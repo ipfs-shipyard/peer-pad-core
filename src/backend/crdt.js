@@ -5,6 +5,7 @@ import Y from 'yjs'
 import YMemory from 'y-memory'
 import YIndexeddb from 'y-indexeddb'
 import YArray from 'y-array'
+import YText from 'y-text'
 import YMap from 'y-map'
 import YRichtext from 'y-richtext'
 import YIPFS from 'y-ipfs-connector'
@@ -12,6 +13,7 @@ import YIPFS from 'y-ipfs-connector'
 YMemory(Y)
 YIndexeddb(Y)
 YArray(Y)
+YText(Y)
 YMap(Y)
 YRichtext(Y)
 YIPFS(Y)
@@ -39,6 +41,7 @@ export default async function startCRDT (id, authToken, keys, ipfs, roomEmitter,
     },
     connector: connectorOptions,
     share: {
+      name: 'Text',
       richtext: 'Richtext',
       access: 'Map'
     }
