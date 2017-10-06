@@ -42,6 +42,11 @@ class Peerpad extends EventEmitter {
     await this._backend.start()
     this.emit('started')
   }
+
+  stop () {
+    this._backend.stop()
+    this.emit('stopped')
+  }
 }
 
 function createPeerpad (options) {
