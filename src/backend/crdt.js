@@ -68,8 +68,7 @@ export default async function startCRDT (id, authToken, keys, ipfs, roomEmitter,
   function decode (m) {
     const source = Buffer.from(m, 'base64')
     const decrypted = keys.cipher().decrypt(source)
-    const result = JSON.parse(Buffer.from(decrypted).toString('utf8'))
-    return result
+    return JSON.parse(Buffer.from(decrypted).toString('utf8'))
   }
 }
 
