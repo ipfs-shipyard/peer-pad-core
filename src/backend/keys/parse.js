@@ -2,6 +2,7 @@
 
 import crypto from 'libp2p-crypto'
 import parallel from 'async/parallel'
+import AES from 'aes-js'
 
 export default async function parseKeys (readKey, writeKey) {
   return new Promise((resolve, reject) => {
@@ -20,7 +21,7 @@ export default async function parseKeys (readKey, writeKey) {
 }
 
 function createAESKeyFromReadKey (key) {
-  const keyBytes = key.slice(0, 32)
-  const iv = key.slice(32, 32 + 16)
-  return (callback) => crypto.aes.create(keyBytes, iv, callback)
+  const keyBytes = key.slice(0, 16)
+  const iv = key.slice(16, 16+16)
+  return () => new AES.ModeOfOperation.cbc(keyBytes, iv)
 }

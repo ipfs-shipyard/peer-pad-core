@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aes-js": "^3.1.0",
     "async": "^2.5.0",
     "bootstrap": "^3.3.7",
     "bs58": "^4.0.1",
@@ -20,7 +21,7 @@
     "remark-html": "^6.0.1",
     "safe-buffer": "^5.1.1",
     "y-array": "^10.1.4",
-    "y-indexeddb": "^8.1.9",
+    "y-indexeddb-encrypted": "^0.0.1",
     "y-ipfs-connector": "^1.3.0",
     "y-map": "^10.1.3",
     "y-memory": "^8.0.9",
