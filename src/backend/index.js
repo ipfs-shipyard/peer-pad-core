@@ -5,7 +5,6 @@ import { decode as b58Decode } from 'bs58'
 import Y from 'yjs'
 
 import parseKeys from './keys/parse'
-import IPFS from './ipfs'
 import authToken from './auth-token'
 import CRDT from './crdt'
 import Auth from './auth'
@@ -16,7 +15,7 @@ class Backend extends EventEmitter {
     super()
     this._options = options
     this.room = new EventEmitter()
-    this.ipfs = IPFS(options.ipfs)
+    this.ipfs = options.ipfs
     this.keys = {
       generateSymmetrical: generateSymmetricalKey
     }

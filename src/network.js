@@ -3,10 +3,10 @@
 const EventEmitter = require('events')
 
 class Network extends EventEmitter {
-  constructor (options, backend) {
+  constructor (ipfs) {
     super()
-    if (!backend.ipfs.isOnline()) {
-      backend.ipfs.once('ready', () => {
+    if (!ipfs.isOnline()) {
+      ipfs.once('ready', () => {
         this.emit('started')
       })
     }
