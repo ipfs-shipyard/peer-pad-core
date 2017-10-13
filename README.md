@@ -14,7 +14,7 @@ $ npm install peerpad-core --save
 ## Import
 
 ```js
-import PeerpadBackend from 'peerpad-core'
+const PeerpadBackend = require('peerpad-core')
 ```
 
 ## `PeerpadBackend.generateRandomKeys()`

@@ -1,10 +1,8 @@
 'use strict'
 
-import Network from './network'
-import IPFS from './backend/ipfs'
-import generateRandomKeys from './backend/keys/generate'
-import parseSymmetricalKey from './backend/keys/parse-symm-key'
-import Document from './document'
+const Network = require('./network')
+const IPFS = require('./backend/ipfs')
+const Document = require('./document')
 
 class PeerpadBackend {
   constructor (_options) {
@@ -24,5 +22,6 @@ function createPeerpadBackend (options) {
   return new PeerpadBackend(options)
 }
 
-export default createPeerpadBackend
-export { generateRandomKeys, parseSymmetricalKey }
+createPeerpadBackend.generateRandomKeys = require('./backend/keys/generate')
+createPeerpadBackend.parseSymmetricalKey = require('./backend/keys/parse-symm-key')
+module.exports = createPeerpadBackend

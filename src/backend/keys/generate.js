@@ -1,7 +1,7 @@
 'use strict'
 
-import { keys } from 'libp2p-crypto'
-import encode from './encode'
+const keys = require('libp2p-crypto').keys
+const encode = require('./encode')
 
 const defaultOptions = {
   algo: 'Ed25519',
@@ -21,4 +21,4 @@ async function generateKeys (options) {
   })
 }
 
-export default generateKeys
+module.exports = generateKeys

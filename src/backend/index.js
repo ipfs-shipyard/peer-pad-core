@@ -1,14 +1,14 @@
 'use strict'
 
-import EventEmitter from 'events'
-import { decode as b58Decode } from 'bs58'
-import Y from 'yjs'
+const EventEmitter = require('events')
+const b58Decode = require('bs58').decode
+const Y = require('yjs')
 
-import parseKeys from './keys/parse'
-import authToken from './auth-token'
-import CRDT from './crdt'
-import Auth from './auth'
-import { generateSymmetrical as generateSymmetricalKey } from './keys'
+const parseKeys = require('./keys/parse')
+const authToken = require('./auth-token')
+const CRDT = require('./crdt')
+const Auth = require('./auth')
+const generateSymmetricalKey = require('./keys').generateSymmetrical
 
 class Backend extends EventEmitter {
   constructor (options) {
@@ -64,4 +64,4 @@ class Backend extends EventEmitter {
   }
 }
 
-export default Backend
+module.exports = Backend

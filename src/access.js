@@ -1,6 +1,6 @@
 'use strict'
 
-import EventEmitter from 'events'
+const EventEmitter = require('events')
 
 const PERMISSIONS = ['read', 'write', 'admin']
 
@@ -25,7 +25,7 @@ class Access extends EventEmitter {
   }
 }
 
-export default Access
+module.exports = Access
 
 function validatePermission (permission) {
   if (PERMISSIONS.indexOf(permission) < 0) {

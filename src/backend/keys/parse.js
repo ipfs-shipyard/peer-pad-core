@@ -1,10 +1,10 @@
 'use strict'
 
-import crypto from 'libp2p-crypto'
-import parallel from 'async/parallel'
-import AES from 'aes-js'
+const crypto = require('libp2p-crypto')
+const parallel = require('async/parallel')
+const AES = require('aes-js')
 
-export default async function parseKeys (readKey, writeKey) {
+module.exports = async function parseKeys (readKey, writeKey) {
   return new Promise((resolve, reject) => {
     parallel({
       'read': (callback) => callback(null, crypto.keys.unmarshalPublicKey(readKey)),
@@ -22,6 +22,7 @@ export default async function parseKeys (readKey, writeKey) {
 
 function createAESKeyFromReadKey (key) {
   const keyBytes = key.slice(0, 16)
-  const iv = key.slice(16, 16+16)
+  const iv = key.slice(16, 16 + 16)
+  // eslint-disable-next-line new-cap
   return () => new AES.ModeOfOperation.cbc(keyBytes, iv)
 }

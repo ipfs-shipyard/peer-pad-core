@@ -1,16 +1,15 @@
 'use strict'
 
-import { Buffer } from 'safe-buffer'
-import DeltaToHTML from 'quill-delta-to-html'
-import pify from 'pify'
-import { encode as b58Encode } from 'bs58'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { Buffer } from 'safe-buffer'
-import Remark from 'remark'
-import RemarkHtml from 'remark-html'
+const DeltaToHTML = require('quill-delta-to-html')
+const pify = require('pify')
+const b58Encode = require('bs58').encode
+const React = require('react')
+const renderToString = require('react-dom/server').renderToString
+const Buffer = require('safe-buffer').Buffer
+const Remark = require('remark')
+const RemarkHtml = require('remark-html')
 
-import { version } from '../package.json'
+const version = require('../package.json').version
 
 let markdown = Remark().use(RemarkHtml)
 markdown = pify(markdown.process.bind(markdown))
@@ -56,9 +55,8 @@ class Snapshots {
     ]
 
     const stream = await pify(this._backend.ipfs.files.createAddStream.bind(this._backend.ipfs.files))()
-    let lastNode
     files.forEach((file) => stream.write(file))
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       stream.on('error', (err) => reject(err))
       stream.on('data', (node) => {
         if (node.path === '.') {
@@ -82,4 +80,4 @@ class Snapshots {
   }
 }
 
-export default Snapshots
+module.exports = Snapshots

@@ -13,4 +13,4 @@ class Network extends EventEmitter {
   }
 }
 
-export default Network
+module.exports = Network

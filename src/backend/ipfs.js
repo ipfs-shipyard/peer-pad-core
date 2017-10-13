@@ -1,6 +1,6 @@
 'use strict'
 
-import IPFS from 'ipfs'
+const IPFS = require('ipfs')
 
 function maybeCreateIPFS (_ipfs) {
   let ipfs = _ipfs
@@ -16,4 +16,4 @@ function maybeCreateIPFS (_ipfs) {
   return ipfs
 }
 
-export default maybeCreateIPFS
+module.exports = maybeCreateIPFS

@@ -1,13 +1,13 @@
 'use strict'
 
-import crypto from 'libp2p-crypto'
+const crypto = require('libp2p-crypto')
 
 const defaultOptions = {
   keyLength: 32,
   ivLength: 16
 }
 
-function generateSymmetricalKey(_options) {
+function generateSymmetricalKey (_options) {
   const options = Object.assign({}, defaultOptions, _options)
   const rawKey = crypto.randomBytes(options.keyLength + options.ivLength)
   return new Promise((resolve, reject) => {
@@ -23,4 +23,4 @@ function generateSymmetricalKey(_options) {
   })
 }
 
-export default generateSymmetricalKey
+module.exports = generateSymmetricalKey

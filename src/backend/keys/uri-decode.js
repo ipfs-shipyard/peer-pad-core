@@ -1,6 +1,6 @@
 'use strict'
 
-import { decode } from 'bs58'
+const decode = require('bs58')
 
 export default function decodeKey (key) {
   return decode(decodeURIComponent(key))

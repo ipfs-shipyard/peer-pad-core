@@ -36,4 +36,4 @@ class Peers extends EventEmitter {
   }
 }
 
-export default Peers
+module.exports = Peers

@@ -1,15 +1,15 @@
 'use strict'
 
-import EventEmitter from 'events'
+const EventEmitter = require('events')
 
-import Backend from './backend'
-import Access from './access'
-import Peers from './peers'
-import Snapshots from './snapshots'
+const Backend = require('./backend')
+const Access = require('./access')
+const Peers = require('./peers')
+const Snapshots = require('./snapshots')
 
 const TYPES = ['markdown', 'richtext']
 
-export default createDocument
+module.exports = createDocument
 
 class Document extends EventEmitter {
   constructor (options) {

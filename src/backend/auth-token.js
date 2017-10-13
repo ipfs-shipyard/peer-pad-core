@@ -1,8 +1,8 @@
 'use strict'
 
-import waterfall from 'async/waterfall'
+const waterfall = require('async/waterfall')
 
-export default async function authTokenFromIpfsId (ipfs, keys) {
+module.exports = async function authTokenFromIpfsId (ipfs, keys) {
   return new Promise((resolve, reject) => {
     waterfall(
       [

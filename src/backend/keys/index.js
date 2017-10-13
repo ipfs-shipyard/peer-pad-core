@@ -1,5 +1,3 @@
 'use strict'
 
-import generateSymmetricalKey from './generate-symm-key'
-
-export { generateSymmetricalKey as generateSymmetrical }
+exports.generateSymmetricalKey = require('./generate-symm-key')

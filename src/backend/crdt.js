@@ -1,26 +1,16 @@
 'use strict'
 
-import Y from 'yjs'
+const Buffer = require('safe-buffer').Buffer
+const Y = require('yjs')
+require('y-memory')(Y)
+require('y-indexeddb-encrypted')(Y)
+require('y-array')(Y)
+require('y-text')(Y)
+require('y-map')(Y)
+require('y-richtext')(Y)
+require('y-ipfs-connector')(Y)
 
-import YMemory from 'y-memory'
-import YIndexeddb from 'y-indexeddb-encrypted'
-import YArray from 'y-array'
-import YText from 'y-text'
-import YMap from 'y-map'
-import YRichtext from 'y-richtext'
-import YIPFS from 'y-ipfs-connector'
-
-import { Buffer } from 'safe-buffer'
-
-YMemory(Y)
-YIndexeddb(Y)
-YArray(Y)
-YText(Y)
-YMap(Y)
-YRichtext(Y)
-YIPFS(Y)
-
-export default async function startCRDT (id, authToken, keys, ipfs, roomEmitter, auth) {
+module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitter, auth) {
   const connectorOptions = {
     name: 'ipfs',
     room: roomName(id),

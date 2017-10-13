@@ -1,8 +1,8 @@
 'use strict'
 
-import EventEmitter from 'events'
+const EventEmitter = require('events')
 
-export default function Auth (keys, roomEmitter) {
+module.exports = function Auth (keys, roomEmitter) {
   const auth = new EventEmitter()
   const capabilitiesByPeer = {}
 

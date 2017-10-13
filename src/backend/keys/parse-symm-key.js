@@ -1,8 +1,8 @@
 'use strict'
 
-import { decode as b58Decode } from 'bs58'
-import crypto from 'libp2p-crypto'
-import pify from 'pify'
+const b58Decode = require('bs58').decode
+const crypto = require('libp2p-crypto')
+const pify = require('pify')
 
 const createKey = pify(crypto.aes.create.bind(crypto.aes))
 
@@ -11,7 +11,7 @@ const defaultOptions = {
   ivLength: 16
 }
 
-function parseSymmetricalKey(string, _options) {
+function parseSymmetricalKey (string, _options) {
   const options = Object.assign({}, defaultOptions, _options)
   const rawKey = b58Decode(string)
 
@@ -20,4 +20,4 @@ function parseSymmetricalKey(string, _options) {
     rawKey.slice(options.keyLength, options.keyLength + options.ivLength))
 }
 
-export default parseSymmetricalKey
+module.exports = parseSymmetricalKey
