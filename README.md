@@ -1,5 +1,8 @@
 # peerpad-core
 
+[![made by Protocol Labs](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](https://protocol.io)
+[![Freenode](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
+
 Peerpad core API
 
 ## Install
@@ -123,7 +126,7 @@ document.peers.on('change', () => {
 
 ## `document.bindEditor(editor)`
 
-Bind [CodeMirror](https://codemirror.net) editor (for pad of type `text`) or [Quill](https://quilljs.com) editor (for pad of type `richtext`).
+Bind [CodeMirror](https://codemirror.net) editor (for pad of type `markdown` or `text`) or [Quill](https://quilljs.com) editor (for pad of type `richtext`).
 
 Two-way bind to a  editor. Example for Quill:
 
@@ -157,9 +160,9 @@ Emitted when the document changes. `fn` is called with the arguments:
 * `operation` (object of type Operation, see further down)
 
 
-## `peerpad.snapshots`
+## `document.snapshots`
 
-## `peerpad.snapshots.take()`
+## `document.snapshots.take()`
 
 Returns a promise
 
@@ -168,6 +171,10 @@ peerpad.snapshots.take().then((hash) => {
   console.log('snapshot hash: ', hash)
 })
 ```
+
+### Want to hack on Peerpad?
+
+[![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/contributing.md)
 
 # License
 
