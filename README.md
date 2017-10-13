@@ -17,7 +17,7 @@ $ npm install peerpad-core --save
 import PeerpadBackend from 'peerpad-core'
 ```
 
-## `async generateRandomKeys()`
+## `await PeerpadBackend.generateRandomKeys()`
 
 Generates a set of read and write random keys.
 
@@ -63,7 +63,7 @@ Stops the backend.
 
 Emitted once the IPFS node starts. If you passed in an IPFS node that is already started (via `options.ipfs`), this event doesn't get emitted.
 
-## ```backend.createDocument(options)```
+## `backend.createDocument(options)`
 
 ```js
 const options = {
