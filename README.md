@@ -17,7 +17,7 @@ $ npm install peerpad-core --save
 import PeerpadBackend from 'peerpad-core'
 ```
 
-## `await PeerpadBackend.generateRandomKeys()`
+## `PeerpadBackend.generateRandomKeys()`
 
 Generates a set of read and write random keys.
 
