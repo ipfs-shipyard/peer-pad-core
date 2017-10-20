@@ -18,7 +18,9 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
     auth: authToken,
     roomEmitter: roomEmitter,
     verifySignature: auth.verifySignature,
-    checkAuth: auth.checkAuth
+    checkAuth: auth.checkAuth,
+    encode: encodeMessage,
+    decode: decodeMessage
   }
 
   if (keys.write) {
@@ -30,8 +32,8 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
   return Y({
     db: {
       name: 'indexeddb-encrypted',
-      encode,
-      decode
+      encode: encodeRecord,
+      decode: decodeRecord
     },
     connector: connectorOptions,
     share: {
@@ -51,14 +53,49 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
   // Encryption
 
   function encode (m) {
-    const source = createSourceBuffer(JSON.stringify(m))
-    return Buffer.from(keys.cipher().encrypt(source)).toString('base64')
+    if (!Buffer.isBuffer(m)) {
+      if (m instanceof Uint8Array) {
+        return encode(Buffer.from(m))
+      }
+      if (typeof m === 'string') {
+        return encode(Buffer.from(m))
+      }
+      return encode(JSON.stringify(m))
+    }
+
+    return Buffer.from(keys.cipher().encrypt(createSourceBuffer(m)))
+  }
+
+  function encodeMessage (m) {
+    return encode(m)
+  }
+
+  function encodeRecord (m) {
+    return encode(m).toString('base64')
   }
 
   function decode (m) {
-    const source = Buffer.from(m, 'base64')
-    const decrypted = keys.cipher().decrypt(source)
-    return JSON.parse(Buffer.from(decrypted).toString('utf8'))
+    if (!Buffer.isBuffer(m)) {
+      if (m instanceof Uint8Array) {
+        return decode(Buffer.from(m))
+      }
+      throw new Error('trying to decode something that is not a buffer', m)
+    }
+    m = Buffer.from(keys.cipher().decrypt(m))
+    return JSON.parse(m.toString('utf8'))
+  }
+
+  function decodeRecord (m) {
+    return decode(Buffer.from(m, 'base64'))
+  }
+
+  function decodeMessage (m) {
+    let source = Buffer.from(m)
+    if ((source.length % 16) !== 0) {
+      throw new Error('invalid message length: ' + source.length)
+    }
+    const ret = decode(source)
+    return ret
   }
 }
 
