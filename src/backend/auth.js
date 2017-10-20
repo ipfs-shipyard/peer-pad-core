@@ -99,9 +99,7 @@ module.exports = function Auth (keys, roomEmitter) {
   function observer () {
     return (event) => {
       // event.path // contains path
-      console.log('event', event)
       const author = event.object.map[event.name][0]
-      console.log('author', author)
       const peerCapabilities = capabilitiesByPeer[author]
 
       // peer has to have admin capabilities
