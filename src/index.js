@@ -22,6 +22,7 @@ function createPeerpadBackend (options) {
   return new PeerpadBackend(options)
 }
 
+createPeerpadBackend.generateRandomName = require('./backend/keys/generate-random-name')
 createPeerpadBackend.generateRandomKeys = require('./backend/keys/generate')
 createPeerpadBackend.parseSymmetricalKey = require('./backend/keys/parse-symm-key')
 module.exports = createPeerpadBackend

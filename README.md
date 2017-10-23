@@ -17,6 +17,10 @@ $ npm install peerpad-core --save
 const PeerpadBackend = require('peerpad-core')
 ```
 
+## `PeerpadBackend.generateRandomName()`
+
+Returns a random pad name (string).
+
 ## `PeerpadBackend.generateRandomKeys()`
 
 Generates a set of read and write random keys.
