@@ -55,6 +55,14 @@ class Document extends EventEmitter {
       this._backend.crdt.share.text.unbindCodeMirror(editor)
     }
   }
+
+  bindTitle (element) {
+    this._backend.crdt.share.name.bindTextarea(element)
+  }
+
+  unbindTitle (element) {
+    this._backend.crdt.share.name.unbindTextarea(element)
+  }
 }
 
 function createDocument (options) {

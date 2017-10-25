@@ -160,6 +160,14 @@ document.bindEditor(editor)
 
 Unbinds editor.
 
+### `document.bindTitle(element)`
+
+Bind the document title to an editing element (like a textarea or a text input field).
+
+### `document.unbindTitle(element)`
+
+Unbind the document title from an editing element.
+
 ### `document.on('change', fn)`
 
 Emitted when the document changes. `fn` is called with the arguments:
