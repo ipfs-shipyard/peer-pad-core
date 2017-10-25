@@ -63,6 +63,10 @@ Stops the backend.
 
 ## Network: `backend.network`
 
+### `backend.network.hasStarted()`
+
+Returns a boolean, `true` if the IPFS node has started.
+
 ### `backend.network.once('started', fn)`
 
 Emitted once the IPFS node starts. If you passed in an IPFS node that is already started (via `options.ipfs`), this event doesn't get emitted.
