@@ -18,6 +18,8 @@
     "react-scripts": "1.0.13",
     "remark": "^8.0.0",
     "remark-html": "^6.0.1",
+    "remark-html-katex": "^1.0.2",
+    "remark-math": "^1.0.1",
     "safe-buffer": "^5.1.1",
     "y-array": "^10.1.4",
     "y-indexeddb-encrypted": "^0.0.1",
