@@ -8,11 +8,20 @@ const renderToString = require('react-dom/server').renderToString
 const Buffer = require('safe-buffer').Buffer
 const Remark = require('remark')
 const RemarkHtml = require('remark-html')
+const RemarkMath = require('remark-math')
+const RemarkHtmlKatex = require('remark-html-katex')
 
 const version = require('../package.json').version
 
 let markdown = Remark().use(RemarkHtml)
 markdown = pify(markdown.process.bind(markdown))
+
+let markdownMath = Remark()
+  .use(RemarkMath)
+  .use(RemarkHtmlKatex)
+  .use(RemarkHtml)
+
+markdownMath = pify(markdownMath.process.bind(markdownMath))
 
 class Snapshots {
   constructor (options, backend) {
@@ -29,8 +38,13 @@ class Snapshots {
       doc = converter.convert()
     } else {
       doc = this._backend.crdt.share.text.toString()
-      if (this._options.type === 'markdown') {
-        doc = (await markdown(doc)).contents
+      switch (this._options.type) {
+        case 'markdown':
+          doc = (await markdown(doc)).contents
+          break
+        case 'math':
+          doc = (await markdownMath(doc)).contents
+          break
       }
     }
     doc = Buffer.from(doc)
