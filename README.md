@@ -87,7 +87,7 @@ const document = backend.createDocument(options)
 ## `options`:
 
 * `name`: string that uniquely identifies this
-* `type`: string that identifies type of document. Currently supports `text` or `richtext`.
+* `type`: string that identifies type of document. Currently supports `text`, `richtext` or `math`.
 * `readKey`: string containing the read key
 * `writeKey`: string containing the write key (optional)
 

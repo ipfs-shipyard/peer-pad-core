@@ -7,7 +7,7 @@ const Access = require('./access')
 const Peers = require('./peers')
 const Snapshots = require('./snapshots')
 
-const TYPES = ['markdown', 'richtext']
+const TYPES = ['markdown', 'richtext', 'math']
 
 module.exports = createDocument
 
