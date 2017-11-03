@@ -1,6 +1,11 @@
 'use strict'
 
 const EventEmitter = require('events')
+const pify = require('pify')
+const Remark = require('remark')
+const RemarkHtml = require('remark-html')
+const RemarkMath = require('remark-math')
+const RemarkHtmlKatex = require('remark-html-katex')
 
 const Backend = require('./backend')
 const Access = require('./access')
@@ -8,6 +13,18 @@ const Peers = require('./peers')
 const Snapshots = require('./snapshots')
 
 const TYPES = ['markdown', 'richtext', 'math']
+
+const converters = {
+  markdown: Remark().use(RemarkHtml, { sanitize: true }),
+  math: Remark()
+    .use(RemarkMath)
+    .use(RemarkHtmlKatex)
+    .use(RemarkHtml, { sanitize: require('./sanitize.json') })
+}
+Object.keys(converters).forEach((key) => {
+  const converter = converters[key]
+  converters[key] = pify(converter.process.bind(converter))
+})
 
 module.exports = createDocument
 
@@ -23,7 +40,7 @@ class Document extends EventEmitter {
 
     this.access = new Access(options, backend)
     this.peers = new Peers(options, backend)
-    this.snapshots = new Snapshots(options, backend)
+    this.snapshots = new Snapshots(options, backend, this)
   }
 
   async start () {
@@ -62,6 +79,14 @@ class Document extends EventEmitter {
 
   unbindTitle (element) {
     this._backend.crdt.share.name.unbindTextarea(element)
+  }
+
+  async convertMarkdown (md, type) {
+    const converter = converters[type]
+    if (!converter) {
+      throw new Error('no converter for type ' + type)
+    }
+    return converter(md).then((result) => result.contents)
   }
 }
 

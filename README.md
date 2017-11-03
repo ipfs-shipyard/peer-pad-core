@@ -168,6 +168,10 @@ Bind the document title to an editing element (like a textarea or a text input f
 
 Unbind the document title from an editing element.
 
+### `async document.convertMarkdown(markdown, type)`
+
+Converts markdown to HTML.
+
 ### `document.on('change', fn)`
 
 Emitted when the document changes. `fn` is called with the arguments:

@@ -6,28 +6,15 @@ const b58Encode = require('bs58').encode
 const React = require('react')
 const renderToString = require('react-dom/server').renderToString
 const Buffer = require('safe-buffer').Buffer
-const Remark = require('remark')
-const RemarkHtml = require('remark-html')
-const RemarkMath = require('remark-math')
-const RemarkHtmlKatex = require('remark-html-katex')
 
 const version = require('../package.json').version
 
-let markdown = Remark().use(RemarkHtml, { sanitize: true })
-markdown = pify(markdown.process.bind(markdown))
-
-let markdownMath = Remark()
-  .use(RemarkMath)
-  .use(RemarkHtmlKatex)
-  .use(RemarkHtml, { sanitize: true })
-
-markdownMath = pify(markdownMath.process.bind(markdownMath))
-
 class Snapshots {
-  constructor (options, backend) {
+  constructor (options, backend, document) {
     this._options = options
     this._DocViewer = this._options.docViewer
     this._backend = backend
+    this._document = document
   }
 
   async take () {
@@ -38,14 +25,7 @@ class Snapshots {
       doc = converter.convert()
     } else {
       doc = this._backend.crdt.share.text.toString()
-      switch (this._options.type) {
-        case 'markdown':
-          doc = (await markdown(doc)).contents
-          break
-        case 'math':
-          doc = (await markdownMath(doc)).contents
-          break
-      }
+      doc = await this._document.convertMarkdown(doc, this._options.type)
     }
     doc = Buffer.from(doc)
 
