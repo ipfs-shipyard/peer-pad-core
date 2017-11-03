@@ -1,6 +1,6 @@
 {
   "name": "peerpad-core",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "dependencies": {
     "aes-js": "^3.1.0",
     "async": "^2.5.0",
