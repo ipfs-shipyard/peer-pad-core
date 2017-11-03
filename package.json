@@ -23,7 +23,7 @@
     "safe-buffer": "^5.1.1",
     "y-array": "^10.1.4",
     "y-indexeddb-encrypted": "^0.0.1",
-    "y-ipfs-connector": "^1.4.1",
+    "y-ipfs-connector": "^1.4.2",
     "y-map": "^10.1.3",
     "y-memory": "^8.0.9",
     "y-richtext": "^9.0.8",
