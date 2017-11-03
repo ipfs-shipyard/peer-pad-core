@@ -9,6 +9,7 @@ const authToken = require('./auth-token')
 const CRDT = require('./crdt')
 const Auth = require('./auth')
 const generateSymmetricalKey = require('./keys').generateSymmetrical
+const awaitIpfsInit = require('./await-ipfs-init')
 
 class Backend extends EventEmitter {
   constructor (options) {
@@ -27,11 +28,7 @@ class Backend extends EventEmitter {
     this._keys = await parseKeys(b58Decode(options.readKey), options.writeKey && b58Decode(options.writeKey))
 
     // if IPFS node is not online yet, delay the start until it is
-    if (!this.ipfs.isOnline()) {
-      await (new Promise((resolve, reject) => {
-        this.ipfs.once('ready', () => resolve())
-      }))
-    }
+    await awaitIpfsInit(this.ipfs)
 
     const token = await authToken(this.ipfs, this._keys)
     this.auth = Auth(this._keys, this.room)
