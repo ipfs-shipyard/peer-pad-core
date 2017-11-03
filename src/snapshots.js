@@ -13,13 +13,13 @@ const RemarkHtmlKatex = require('remark-html-katex')
 
 const version = require('../package.json').version
 
-let markdown = Remark().use(RemarkHtml)
+let markdown = Remark().use(RemarkHtml, { sanitize: true })
 markdown = pify(markdown.process.bind(markdown))
 
 let markdownMath = Remark()
   .use(RemarkMath)
   .use(RemarkHtmlKatex)
-  .use(RemarkHtml)
+  .use(RemarkHtml, { sanitize: true })
 
 markdownMath = pify(markdownMath.process.bind(markdownMath))
 
