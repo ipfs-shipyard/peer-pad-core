@@ -90,6 +90,7 @@ const document = backend.createDocument(options)
 * `type`: string that identifies type of document. Currently supports `text`, `richtext` or `math`.
 * `readKey`: string containing the read key
 * `writeKey`: string containing the write key (optional)
+* `peerAlias`: string identifying the current author. Defaults to the IPFS peerId
 
 # `Document`
 
@@ -131,6 +132,10 @@ document.peers.on('change', () => {
   console.log('peers changed and now are', peerpad.peers.all())
 })
 ```
+
+### `document.setPeerAlias(peerAlias)`
+
+Sets the current peer alias. `peerAlias` must be a string.
 
 ## `document.bindEditor(editor)`
 

@@ -40,7 +40,8 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
       name: 'Text',
       text: 'Text',
       richtext: 'Richtext',
-      access: 'Map'
+      access: 'Map',
+      peerAliases: 'Map'
     }
   })
 
@@ -81,8 +82,8 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
       }
       throw new Error('trying to decode something that is not a buffer', m)
     }
-    m = Buffer.from(keys.cipher().decrypt(m))
-    return JSON.parse(m.toString('utf8'))
+    const mb = Buffer.from(keys.cipher().decrypt(m))
+    return JSON.parse(mb.toString('utf8'))
   }
 
   function decodeRecord (m) {
@@ -94,8 +95,7 @@ module.exports = async function startCRDT (id, authToken, keys, ipfs, roomEmitte
     if ((source.length % 16) !== 0) {
       throw new Error('invalid message length: ' + source.length)
     }
-    const ret = decode(source)
-    return ret
+    return decode(source)
   }
 }
 
