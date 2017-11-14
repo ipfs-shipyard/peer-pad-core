@@ -26,7 +26,7 @@ class Peers extends EventEmitter {
 
       backend.crdt.share.peerAliases.observe((event) => {
         const peerName = event.name
-        if (['update', 'insert'].indexOf(event.type) >= 0) {
+        if (['update', 'insert', 'add'].indexOf(event.type) >= 0) {
           const peer = this._ensurePeer(peerName)
           peer.alias = event.value
           this._roomChanged()
