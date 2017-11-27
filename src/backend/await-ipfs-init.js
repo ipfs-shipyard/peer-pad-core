@@ -10,7 +10,7 @@ module.exports = function awaitIpfsInit (ipfs) {
     // the peerId is set: https://github.com/ipfs/js-ipfs/issues/1058
 
     (function checkPeerInfo () {
-      if (ipfs._peerInfo && ipfs._peerInfo.id) {
+      if (ipfs.isOnline() && ipfs._peerInfo && ipfs._peerInfo.id) {
         resolve(ipfs._peerInfo.id)
       } else {
         setTimeout(checkPeerInfo, POLL_INTERVAL)
