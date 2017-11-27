@@ -10,11 +10,8 @@ const CRDT = require('./crdt')
 const Auth = require('./auth')
 const generateSymmetricalKey = require('./keys').generateSymmetrical
 const awaitIpfsInit = require('./await-ipfs-init')
-<<<<<<< HEAD
 const Network = require('./network')
-=======
 const migrateIpfsRepoIfNecessary = require('./migrate-ipfs-repo-if-necessary')
->>>>>>> migrating ipfs repo from v5 to v6
 
 class Backend extends EventEmitter {
   constructor (options) {
