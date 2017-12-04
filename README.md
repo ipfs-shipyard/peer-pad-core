@@ -45,7 +45,7 @@ const backend = PeerpadBackend(options)
 
 Options:
 
-* `ipfs`: IPFS node that is already created (optional)
+* `ipfs`: IPFS (version 0.27 or higher) node that is already created (optional). If not passed in, one will be created for you.
 
 # `PeerpadBackend`
 
