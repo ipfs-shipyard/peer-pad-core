@@ -4,15 +4,13 @@ const IPFS = require('ipfs')
 
 function maybeCreateIPFS (_ipfs) {
   let ipfs = _ipfs
-  let resolve
-  let reject
+  let _resolve
 
-  const ret = new Promise((_resolve, _reject) => {
+  const ret = new Promise((resolve, reject) => {
     if (ipfs) {
       resolve(ipfs)
     } else {
-      resolve = _resolve
-      reject = _reject
+      _resolve = resolve
     }
   })
 
@@ -29,14 +27,14 @@ function maybeCreateIPFS (_ipfs) {
       config: {
         Addresses: {
           Swarm: [
-            '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
+            '/dns4/ws-star-signal-1.servep2p.com/tcp/443/wss/p2p-websocket-star'
           ]
         }
       }
     })
 
-    if (resolve) {
-      resolve(ipfs)
+    if (_resolve) {
+      _resolve(ipfs)
     }
 
     return ipfs
