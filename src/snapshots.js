@@ -50,9 +50,8 @@ class Snapshots {
     ]
 
     const stream = this._backend.ipfs.files.addReadableStream()
-    files.forEach((file) => stream.write(file))
     return new Promise((resolve, reject) => {
-      stream.on('error', (err) => reject(err))
+      stream.once('error', (err) => reject(err))
       stream.on('data', (node) => {
         if (node.path === '.') {
           resolve({
@@ -61,6 +60,7 @@ class Snapshots {
           })
         }
       })
+      files.forEach((file) => stream.write(file))
       stream.end()
     })
   }
