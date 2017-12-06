@@ -7,11 +7,13 @@ class Network extends EventEmitter {
     super()
     this._started = false
 
-    if (ipfs.isOnline()) {
-      setImmediate(this._onStart.bind(this))
-    } else {
-      ipfs.once('ready', this._onStart.bind(this))
-    }
+    ipfs.then((ipfs) => {
+      if (ipfs.isOnline()) {
+        setImmediate(this._onStart.bind(this))
+      } else {
+        ipfs.once('ready', this._onStart.bind(this))
+      }
+    })
   }
 
   _onStart () {
