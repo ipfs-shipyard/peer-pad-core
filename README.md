@@ -197,6 +197,53 @@ peerpad.snapshots.take().then((hash) => {
 })
 ```
 
+## `document.network`
+
+### `document.network.observe()`
+
+Returns an Event Emitter that emits the following events:
+
+#### `received message`
+
+```js
+const emitter = document.network.observe()
+emitter.on('received message', (fromPeer, message) => {
+  console.log('received message from %s: %j', fromPeer, message)
+})
+```
+
+#### `sent message`
+
+```js
+const emitter = document.network.observe()
+emitter.on('sent message', (toPeer, message) => {
+  console.log('sent message to %s: %j', toPeer, message)
+})
+```
+
+#### `peer joined`
+
+```js
+const emitter = document.network.observe()
+emitter.on('peer joined', (peer) => {
+  console.log('peer %s joined room', peer)
+})
+```
+
+#### `peer left`
+
+```js
+const emitter = document.network.observe()
+emitter.on('peer left', (peer) => {
+  console.log('peer %s left room', peer)
+})
+```
+
+### `emitter.stop()`
+
+Stop observing events. No network events get emitted after calling this.
+
+
 ### Want to hack on Peerpad?
 
 [![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/contributing.md)

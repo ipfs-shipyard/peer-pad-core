@@ -41,6 +41,7 @@ class Document extends EventEmitter {
     this.access = new Access(options, backend)
     this.peers = new Peers(options, backend)
     this.snapshots = new Snapshots(options, backend, this)
+    this.network = this._backend.network
   }
 
   async start () {
