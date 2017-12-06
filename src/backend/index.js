@@ -22,11 +22,8 @@ class Backend extends EventEmitter {
     this.keys = {
       generateSymmetrical: generateSymmetricalKey
     }
-<<<<<<< HEAD
     this.network = new Network(this.room)
-=======
     this._handleError = this._handleError.bind(this)
->>>>>>> error handling and upgraded to IPFS 0.27 files API
   }
 
   async start () {
