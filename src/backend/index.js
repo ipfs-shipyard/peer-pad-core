@@ -10,6 +10,7 @@ const CRDT = require('./crdt')
 const Auth = require('./auth')
 const generateSymmetricalKey = require('./keys').generateSymmetrical
 const awaitIpfsInit = require('./await-ipfs-init')
+const Network = require('./network')
 
 class Backend extends EventEmitter {
   constructor (options) {
@@ -20,6 +21,7 @@ class Backend extends EventEmitter {
     this.keys = {
       generateSymmetrical: generateSymmetricalKey
     }
+    this.network = new Network(this.room)
   }
 
   async start () {
