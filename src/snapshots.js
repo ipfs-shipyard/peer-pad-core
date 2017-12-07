@@ -18,6 +18,7 @@ class Snapshots {
   }
 
   async take () {
+    console.log('take')
     let doc
     if (this._options.type === 'richtext') {
       const delta = this._backend.crdt.share.richtext.toDelta()
@@ -48,10 +49,9 @@ class Snapshots {
       }
     ]
 
-    const stream = await pify(this._backend.ipfs.files.createAddStream.bind(this._backend.ipfs.files))()
-    files.forEach((file) => stream.write(file))
+    const stream = this._backend.ipfs.files.addReadableStream()
     return new Promise((resolve, reject) => {
-      stream.on('error', (err) => reject(err))
+      stream.once('error', (err) => reject(err))
       stream.on('data', (node) => {
         if (node.path === '.') {
           resolve({
@@ -60,6 +60,7 @@ class Snapshots {
           })
         }
       })
+      files.forEach((file) => stream.write(file))
       stream.end()
     })
   }

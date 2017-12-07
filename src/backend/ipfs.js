@@ -4,15 +4,13 @@ const IPFS = require('ipfs')
 
 function maybeCreateIPFS (_ipfs) {
   let ipfs = _ipfs
-  let resolve
-  let reject
+  let _resolve
 
-  const ret = new Promise((_resolve, _reject) => {
+  const ret = new Promise((resolve, reject) => {
     if (ipfs) {
       resolve(ipfs)
     } else {
-      resolve = _resolve
-      reject = _reject
+      _resolve = resolve
     }
   })
 
@@ -35,8 +33,8 @@ function maybeCreateIPFS (_ipfs) {
       }
     })
 
-    if (resolve) {
-      resolve(ipfs)
+    if (_resolve) {
+      _resolve(ipfs)
     }
 
     return ipfs

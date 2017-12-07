@@ -37,6 +37,7 @@ class Document extends EventEmitter {
     this._options = options
 
     const backend = this._backend = new Backend(options)
+    this._backend.on('error', (err) => this.emit('error', err))
 
     this.access = new Access(options, backend)
     this.peers = new Peers(options, backend)

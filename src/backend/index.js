@@ -10,11 +10,8 @@ const CRDT = require('./crdt')
 const Auth = require('./auth')
 const generateSymmetricalKey = require('./keys').generateSymmetrical
 const awaitIpfsInit = require('./await-ipfs-init')
-<<<<<<< HEAD
 const Network = require('./network')
-=======
 const migrateIpfsRepoIfNecessary = require('./migrate-ipfs-repo-if-necessary')
->>>>>>> migrating ipfs repo from v5 to v6
 
 class Backend extends EventEmitter {
   constructor (options) {
@@ -26,6 +23,7 @@ class Backend extends EventEmitter {
       generateSymmetrical: generateSymmetricalKey
     }
     this.network = new Network(this.room)
+    this._handleError = this._handleError.bind(this)
   }
 
   async start () {
@@ -37,6 +35,10 @@ class Backend extends EventEmitter {
     await migrateIpfsRepoIfNecessary()
 
     this.ipfs = this.ipfs.start()
+
+    // Listen for errors
+    this.ipfs.on('error', this._handleError)
+
     // if IPFS node is not online yet, delay the start until it is
     await awaitIpfsInit(this.ipfs)
 
@@ -69,8 +71,13 @@ class Backend extends EventEmitter {
   }
 
   stop () {
+    this.ipfs.removeListener('error', this._handleError)
     this.crdt.share.access.unobserve(this._observer)
     this._observer = null
+  }
+
+  _handleError (err) {
+    this.emit('error', err)
   }
 }
 
