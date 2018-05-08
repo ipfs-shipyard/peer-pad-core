@@ -1,5 +1,5 @@
 {
-  "name": "peerpad-core",
+  "name": "peer-pad-core",
   "version": "0.11.0",
   "dependencies": {
     "aes-js": "^3.1.0",
