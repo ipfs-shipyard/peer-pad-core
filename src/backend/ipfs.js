@@ -27,7 +27,7 @@ function maybeCreateIPFS (_ipfs) {
       config: {
         Addresses: {
           Swarm: [
-            '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
+            '/dns4/ws-star1.par.dwebops.pub/tcp/443/wss/p2p-websocket-star'
           ]
         }
       }
