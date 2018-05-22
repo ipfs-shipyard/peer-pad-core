@@ -1,8 +1,12 @@
 'use strict'
 
 const waterfall = require('async/waterfall')
+var peerPadEthereumSignature = require('peer-pad-ethereum-signature')
 
-module.exports = async function authTokenFromIpfsId (ipfs, keys) {
+// exports.verifyIpfsIdSignature = function (ipfs, from, signature) {
+// exports.signIpfsId = function (ipfs) {
+
+module.exports = async function authTokenFromIpfsId (ipfs, keys, ethereumWalletInfo) {
   return new Promise((resolve, reject) => {
     waterfall(
       [
@@ -18,7 +22,12 @@ module.exports = async function authTokenFromIpfsId (ipfs, keys) {
           }
         },
         (token, cb) => {
-          cb(null, token && token.toString('base64'))
+          peerPadEthereumSignature.signIpfsId(ipfs).then(signatureData => {
+            let send = {ethereumWalletInfo: JSON.stringify(signatureData).toString('base64'), token: token && token.toString('base64')}
+            send = JSON.stringify(send)
+          // cb(null, token && token.toString('base64'))
+            cb(null, send)
+          })
         }
       ],
       (err, token) => {

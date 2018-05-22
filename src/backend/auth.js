@@ -1,5 +1,5 @@
 'use strict'
-
+var peerPadEthereumSignature = require('peer-pad-ethereum-signature')
 const EventEmitter = require('events')
 
 module.exports = function Auth (keys, roomEmitter) {
@@ -14,6 +14,7 @@ module.exports = function Auth (keys, roomEmitter) {
 
   roomEmitter.on('peer left', (peerId) => {
     delete capabilitiesByPeer[peerId]
+    // step1 : emitir evento
     auth.emit('change', peerId, null)
   })
 
@@ -57,8 +58,11 @@ module.exports = function Auth (keys, roomEmitter) {
     const capabilities = capabilitiesByPeer[peerId] || {}
     return Object.keys(capabilities).filter((capability) => capabilities[capability] === true)
   }
-
+//
   function verifySignature (peer, payload, signature, callback) {
+    // payload = authtoken
+    // payload = Buffer.from(JSON.parse(payload.toString()).token, 'base64')
+
     const capabilities = capabilitiesByPeer[peer]
     if (!signature) {
       if (capabilities && capabilities.read && !capabilities.write) {
@@ -71,7 +75,36 @@ module.exports = function Auth (keys, roomEmitter) {
     }
   }
 
+  function checkEthereumSignature (ethereumWalletInfo, sender) {
+    return peerPadEthereumSignature.verifyIpfsIdSignature(sender, ethereumWalletInfo)
+  }
+
   function checkAuth (authToken, y, sender) {
+    return new Promise(function (resolve, reject) {
+      if (!authToken) {
+        console.log('Empty token...')
+        resolve('nop')
+      }
+      var ethereumWalletInfo = JSON.parse(JSON.parse(authToken).ethereumWalletInfo)
+      let token = JSON.parse(authToken).token
+
+      let checkIPFSSignature = checkIpfsIdAuth(token, y, sender)
+      let EthereumSignatureCheck = checkEthereumSignature(ethereumWalletInfo, sender)
+
+      Promise.all([EthereumSignatureCheck, checkIPFSSignature]).then(checks => {
+        if (checks[0] && checks[1]) {
+          // emitir evento aqui
+          auth.emit('authenticatedEthereum', ethereumWalletInfo.from, null)
+          resolve('write')
+        } else {
+          resolve('bad signature')
+        }
+      }
+      )
+    })
+  }
+
+  function checkIpfsIdAuth (authToken, y, sender) {
     return new Promise((resolve, reject) => {
       if (!authToken) {
         // TODO: is this correct?
