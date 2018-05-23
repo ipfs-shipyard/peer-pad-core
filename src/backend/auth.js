@@ -100,7 +100,7 @@ module.exports = function Auth (keys, roomEmitter) {
             if (!ethVerResult) {
               return reject(new Error('bad ethereum signature'))
             }
-            auth.emit('authenticatedEthereum', sender, ethereumWalletInfo.from)
+            auth.emit('authenticatedEthereum', sender, ethereumWalletInfo)
           }
 
           return ipfsVerResult ? resolve('write') : reject(new Error('bad signature'))

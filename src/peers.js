@@ -24,9 +24,9 @@ class Peers extends EventEmitter {
         this._roomChanged()
       })
 
-      backend.auth.on('authenticatedEthereum', (peerId, ethereumId) => {
+      backend.auth.on('authenticatedEthereum', (peerId, ethereumInfo) => {
         const peer = this._ensurePeer(peerId)
-        peer.ethereumId = ethereumId
+        peer.ethereumInfo = ethereumInfo
         this._roomChanged()
       })
 
