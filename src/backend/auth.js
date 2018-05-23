@@ -82,7 +82,7 @@ module.exports = function Auth (keys, roomEmitter) {
   function checkAuth (authToken, y, sender) {
     return new Promise(function (resolve, reject) {
       if (!authToken) {
-        resolve('nop')
+        return 'nop'
       }
       // authToken = JSON.parse(Buffer.from(authToken))
       const ethereumSignatureCheck = authToken.ethereumWalletInfo && checkEthereumSignature(JSON.parse(authToken.ethereumWalletInfo), sender)
