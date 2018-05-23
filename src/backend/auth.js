@@ -82,7 +82,7 @@ module.exports = function Auth (keys, roomEmitter) {
   function checkAuth (authToken, y, sender) {
     return new Promise(function (resolve, reject) {
       if (!authToken) {
-        return 'nop'
+        return resolve('read')
       }
       // authToken = JSON.parse(Buffer.from(authToken))
       const ethereumSignatureCheck = authToken.ethereumWalletInfo && checkEthereumSignature(JSON.parse(authToken.ethereumWalletInfo), sender)
@@ -94,16 +94,16 @@ module.exports = function Auth (keys, roomEmitter) {
         verifications.push(ethereumSignatureCheck)
       }
 
-      return Promise.all(verifications)
+      Promise.all(verifications)
         .then(([ipfsVerResult, ethVerResult]) => {
           if (ethereumSignatureCheck) {
             if (!ethVerResult) {
-              return 'bad ethereum signature'
+              return reject(new Error('bad ethereum signature'))
             }
             auth.emit('authenticatedEthereum', sender, ethereumWalletInfo.from)
           }
 
-          return ipfsVerResult ? 'write' : 'bad signature'
+          return ipfsVerResult ? resolve('write') : reject(new Error('bad signature'))
         }
       )
     })
