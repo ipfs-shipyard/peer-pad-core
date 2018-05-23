@@ -63,6 +63,7 @@ class Peers extends EventEmitter {
   }
 
   _roomChanged () {
+    console.log('room changed:', this.all())
     this.emit('change')
   }
 

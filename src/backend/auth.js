@@ -85,8 +85,8 @@ module.exports = function Auth (keys, roomEmitter) {
         return resolve('read')
       }
       // authToken = JSON.parse(Buffer.from(authToken))
+      console.log('authToken:', authToken)
       const ethereumSignatureCheck = authToken.ethereumWalletInfo && checkEthereumSignature(JSON.parse(authToken.ethereumWalletInfo), sender)
-      const ethereumWalletInfo = authToken.ethereumWalletInfo && JSON.parse(authToken.ethereumWalletInfo)
 
       const token = authToken.token
       const verifications = [checkIpfsIdAuth(token, y, sender)]
@@ -96,11 +96,9 @@ module.exports = function Auth (keys, roomEmitter) {
 
       Promise.all(verifications)
         .then(([ipfsVerResult, ethVerResult]) => {
+          console.log('ethVerResult:', ethVerResult)
           if (ethereumSignatureCheck) {
-            if (!ethVerResult) {
-              return reject(new Error('bad ethereum signature'))
-            }
-            auth.emit('authenticatedEthereum', sender, ethereumWalletInfo)
+            auth.emit('authenticatedEthereum', sender, ethVerResult)
           }
 
           return ipfsVerResult ? resolve('write') : reject(new Error('bad signature'))
