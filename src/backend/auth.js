@@ -1,5 +1,5 @@
 'use strict'
-
+var peerPadEthereumSignature = require('peer-pad-ethereum-signature')
 const EventEmitter = require('events')
 
 module.exports = function Auth (keys, roomEmitter) {
@@ -14,6 +14,7 @@ module.exports = function Auth (keys, roomEmitter) {
 
   roomEmitter.on('peer left', (peerId) => {
     delete capabilitiesByPeer[peerId]
+    // step1 : emitir evento
     auth.emit('change', peerId, null)
   })
 
@@ -57,8 +58,11 @@ module.exports = function Auth (keys, roomEmitter) {
     const capabilities = capabilitiesByPeer[peerId] || {}
     return Object.keys(capabilities).filter((capability) => capabilities[capability] === true)
   }
-
+//
   function verifySignature (peer, payload, signature, callback) {
+    // payload = authtoken
+    // payload = Buffer.from(JSON.parse(payload.toString()).token, 'base64')
+
     const capabilities = capabilitiesByPeer[peer]
     if (!signature) {
       if (capabilities && capabilities.read && !capabilities.write) {
@@ -71,7 +75,39 @@ module.exports = function Auth (keys, roomEmitter) {
     }
   }
 
+  function checkEthereumSignature (ethereumWalletInfo, sender) {
+    return peerPadEthereumSignature.verifyIpfsIdSignature(sender, ethereumWalletInfo)
+  }
+
   function checkAuth (authToken, y, sender) {
+    return new Promise(function (resolve, reject) {
+      if (!authToken) {
+        return resolve('read')
+      }
+      // authToken = JSON.parse(Buffer.from(authToken))
+      console.log('authToken:', authToken)
+      const ethereumSignatureCheck = authToken.ethereumWalletInfo && checkEthereumSignature(JSON.parse(authToken.ethereumWalletInfo), sender)
+
+      const token = authToken.token
+      const verifications = [checkIpfsIdAuth(token, y, sender)]
+      if (ethereumSignatureCheck) {
+        verifications.push(ethereumSignatureCheck)
+      }
+
+      Promise.all(verifications)
+        .then(([ipfsVerResult, ethVerResult]) => {
+          console.log('ethVerResult:', ethVerResult)
+          if (ethereumSignatureCheck) {
+            auth.emit('authenticatedEthereum', sender, ethVerResult)
+          }
+
+          return ipfsVerResult ? resolve('write') : reject(new Error('bad signature'))
+        }
+      )
+    })
+  }
+
+  function checkIpfsIdAuth (authToken, y, sender) {
     return new Promise((resolve, reject) => {
       if (!authToken) {
         // TODO: is this correct?

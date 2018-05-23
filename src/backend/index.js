@@ -45,7 +45,7 @@ class Backend extends EventEmitter {
     // ---- initialize keys
     this._keys = await parseKeys(b58Decode(options.readKey), options.writeKey && b58Decode(options.writeKey))
 
-    const token = await authToken(this.ipfs, this._keys)
+    const token = await authToken(this.ipfs, this._keys) // ethereum wallet
     this.auth = Auth(this._keys, this.room)
     this.crdt = await CRDT(this._options.name, token, this._keys, this.ipfs, this.room, this.auth)
     this.crdt.share.access.observeDeep(this.auth.observer())

@@ -24,6 +24,12 @@ class Peers extends EventEmitter {
         this._roomChanged()
       })
 
+      backend.auth.on('authenticatedEthereum', (peerId, ethereumInfo) => {
+        const peer = this._ensurePeer(peerId)
+        peer.ethereumInfo = ethereumInfo
+        this._roomChanged()
+      })
+
       backend.crdt.share.peerAliases.observe((event) => {
         const peerName = event.name
         if (['update', 'insert', 'add'].indexOf(event.type) >= 0) {
@@ -57,6 +63,7 @@ class Peers extends EventEmitter {
   }
 
   _roomChanged () {
+    console.log('room changed:', this.all())
     this.emit('change')
   }
 
