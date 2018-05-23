@@ -21,13 +21,19 @@ module.exports = async function authTokenFromIpfsId (ipfs, keys, ethereumWalletI
             keys.write.sign(Buffer.from(nodeId), cb)
           }
         },
-        (token, cb) => {
-          peerPadEthereumSignature.signIpfsId(ipfs).then(signatureData => {
-            let send = {ethereumWalletInfo: JSON.stringify(signatureData).toString('base64'), token: token && token.toString('base64')}
-            send = JSON.stringify(send)
-          // cb(null, token && token.toString('base64'))
-            cb(null, send)
-          })
+        (ipfsToken, cb) => {
+          ipfsToken = ipfsToken && ipfsToken.toString('base64')
+          const token = {
+            token: ipfsToken
+          }
+          if (window.web3) {
+            peerPadEthereumSignature.signIpfsId(ipfs).then(signatureData => {
+              token.ethereumWalletInfo = JSON.stringify(signatureData).toString('base64')
+              cb(null, token)
+            })
+          } else {
+            cb(null, token)
+          }
         }
       ],
       (err, token) => {

@@ -82,24 +82,29 @@ module.exports = function Auth (keys, roomEmitter) {
   function checkAuth (authToken, y, sender) {
     return new Promise(function (resolve, reject) {
       if (!authToken) {
-        console.log('Empty token...')
         resolve('nop')
       }
-      var ethereumWalletInfo = JSON.parse(JSON.parse(authToken).ethereumWalletInfo)
-      let token = JSON.parse(authToken).token
+      // authToken = JSON.parse(Buffer.from(authToken))
+      const ethereumSignatureCheck = authToken.ethereumWalletInfo && checkEthereumSignature(authToken.ethereumWalletInfo, sender)
+      const ethereumWalletInfo = authToken.ethereumWalletInfo && JSON.parse(authToken.ethereumWalletInfo)
 
-      let checkIPFSSignature = checkIpfsIdAuth(token, y, sender)
-      let EthereumSignatureCheck = checkEthereumSignature(ethereumWalletInfo, sender)
-
-      Promise.all([EthereumSignatureCheck, checkIPFSSignature]).then(checks => {
-        if (checks[0] && checks[1]) {
-          // emitir evento aqui
-          auth.emit('authenticatedEthereum', ethereumWalletInfo.from, null)
-          resolve('write')
-        } else {
-          resolve('bad signature')
-        }
+      const token = authToken.token
+      const verifications = [checkIpfsIdAuth(token, y, sender)]
+      if (ethereumSignatureCheck) {
+        verifications.push(ethereumSignatureCheck)
       }
+
+      return Promise.all(verifications)
+        .then(([ipfsVerResult, ethVerResult]) => {
+          if (ethereumSignatureCheck) {
+            if (!ethVerResult) {
+              return 'bad ethereum signature'
+            }
+            auth.emit('authenticatedEthereum', sender, ethereumWalletInfo.from)
+          }
+
+          return ipfsVerResult ? 'write' : 'bad signature'
+        }
       )
     })
   }
