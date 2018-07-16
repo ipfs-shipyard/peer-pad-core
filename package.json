@@ -2,17 +2,18 @@
   "name": "peer-pad-core",
   "version": "0.12.0",
   "dependencies": {
+    "aegir": "^15.0.0",
     "aes-js": "^3.1.0",
     "async": "^2.5.0",
     "bootstrap": "^3.3.7",
     "bs58": "^4.0.1",
     "history": "^4.7.2",
-    "ipfs": "~0.28.2",
-    "libp2p-crypto": "^0.10.3",
+    "ipfs": "~0.30.0",
+    "libp2p-crypto": "~0.13.0",
     "pify": "^3.0.0",
     "prop-types": "^15.6.0",
     "quill": "^1.3.3",
-    "quill-delta-to-html": "^0.5.1",
+    "quill-delta-to-html": "~0.5.1",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-scripts": "1.0.13",
@@ -20,10 +21,9 @@
     "remark-html": "^6.0.1",
     "remark-html-katex": "^1.0.2",
     "remark-math": "^1.0.1",
-    "safe-buffer": "^5.1.1",
     "y-array": "^10.1.4",
-    "y-indexeddb-encrypted": "^0.0.1",
-    "y-ipfs-connector": "^2.2.0",
+    "y-indexeddb-encrypted": "~0.0.1",
+    "y-ipfs-connector": "~2.3.0",
     "y-map": "^10.1.3",
     "y-memory": "^8.0.9",
     "y-richtext": "^9.0.8",
@@ -35,14 +35,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "npm run lint",
-    "lint": "standard",
+    "lint": "aegir lint",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "pre-commit": "^1.2.2",
-    "standard": "^10.0.3"
-  },
-  "pre-commit": [
-    "test"
-  ]
+  "devDependencies": {}
 }

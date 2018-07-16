@@ -1,6 +1,5 @@
 'use strict'
 
-const Buffer = require('safe-buffer').Buffer
 const Y = require('yjs')
 require('y-memory')(Y)
 require('y-indexeddb-encrypted')(Y)
