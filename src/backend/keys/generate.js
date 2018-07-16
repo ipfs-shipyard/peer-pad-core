@@ -14,8 +14,8 @@ async function generateKeys (options) {
     keys.generateKeyPair(options.algo, options.bits, (err, key) => {
       if (err) { return reject(err) }
       resolve({
-        'read': encode(keys.marshalPublicKey(key.public)),
-        'write': encode(keys.marshalPrivateKey(key))
+        read: encode(keys.marshalPublicKey(key.public)),
+        write: encode(keys.marshalPrivateKey(key))
       })
     })
   })

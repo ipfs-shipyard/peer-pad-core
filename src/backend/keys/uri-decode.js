@@ -2,6 +2,8 @@
 
 const decode = require('bs58')
 
-export default function decodeKey (key) {
+function decodeKey (key) {
   return decode(decodeURIComponent(key))
 }
+
+module.exports = decodeKey
