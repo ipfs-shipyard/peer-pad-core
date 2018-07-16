@@ -23,7 +23,7 @@
     "remark-math": "^1.0.1",
     "y-array": "^10.1.4",
     "y-indexeddb-encrypted": "~0.0.1",
-    "y-ipfs-connector": "^2.2.0",
+    "y-ipfs-connector": "ipfs-shipyard/y-ipfs-connector#js-ipfs0.30",
     "y-map": "^10.1.3",
     "y-memory": "^8.0.9",
     "y-richtext": "^9.0.8",
