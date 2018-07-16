@@ -5,7 +5,6 @@ const pify = require('pify')
 const b58Encode = require('bs58').encode
 const React = require('react')
 const renderToString = require('react-dom/server').renderToString
-const Buffer = require('safe-buffer').Buffer
 
 const version = require('../package.json').version
 
