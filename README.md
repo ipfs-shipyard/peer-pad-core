@@ -1,5 +1,7 @@
 # peerpad-core
 
+# Not being used, DEPRECATED IN FAVOR OF [peer-base](https://github.com/peer-base/peer-base)
+
 [![made by Protocol Labs](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](https://protocol.io)
 [![Freenode](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
 
