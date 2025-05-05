@@ -22,12 +22,14 @@ function maybeCreateIPFS (_ipfs) {
     console.log('creating IPFS')
     ipfs = new IPFS({
       EXPERIMENTAL: {
-        pubsub: true
+        pubsub: true,
+        relay: {
+          enabled: true
+        }
       },
       config: {
         Addresses: {
           Swarm: [
-            '/dns4/ws-star1.par.dwebops.pub/tcp/443/wss/p2p-websocket-star'
           ]
         }
       }

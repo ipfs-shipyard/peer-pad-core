@@ -12,6 +12,8 @@ const generateSymmetricalKey = require('./keys').generateSymmetrical
 const awaitIpfsInit = require('./await-ipfs-init')
 const Network = require('./network')
 const migrateIpfsRepoIfNecessary = require('./migrate-ipfs-repo-if-necessary')
+const crypto = require('crypto')
+const dblSha256 = (data) => crypto.createHash('sha256').update(crypto.createHash('sha256').update(data).digest()).digest('hex')
 
 class Backend extends EventEmitter {
   constructor (options) {
@@ -28,6 +30,7 @@ class Backend extends EventEmitter {
 
   async start () {
     const options = this._options
+    this.padId = 'pad#' + dblSha256(options.readKey) // hash readKey so we don't give the rendezvous access by registering with it as id
 
     // ---- start js-ipfs
 
@@ -41,6 +44,11 @@ class Backend extends EventEmitter {
 
     // if IPFS node is not online yet, delay the start until it is
     await awaitIpfsInit(this.ipfs)
+    this.ipfs.rendezvous.register(this.padId) // register on pad namespace for discovery
+    this.ipfs.rendezvous.on('ns:' + this.padId, peer => { // HACK: should discover over libp2p discovery instead
+      console.log('discovered peer %s', peer.multiaddrs.toArray().map(String).join(', '))
+      this.ipfs._libp2pNode.dial(peer, console.log)
+    })
 
     // ---- initialize keys
     this._keys = await parseKeys(b58Decode(options.readKey), options.writeKey && b58Decode(options.writeKey))
